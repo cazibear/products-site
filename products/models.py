@@ -8,6 +8,13 @@ class Product(models.Model):
 	height = models.DecimalField("The height of the product.", max_digits=5, decimal_places=2)
 	width = models.DecimalField("The width of the product.", max_digits=5, decimal_places=2)
 	length = models.DecimalField("The length of the product.", max_digits=5, decimal_places=2)
+	submitted = models.DateField("Date the product was added", auto_now_add=True)
+
+	def __str__(self):
+		return self.name
+
+	def truncated_description(self):
+		return " ".join(self.description.split()[:20]) + "..."
 
 class User(models.Model):
 	# the model for each user
@@ -16,3 +23,6 @@ class User(models.Model):
 	password = ""
 	email = models.EmailField("The user's email for order confirmations.")
 	joined = models.DateField("Date the user joined", auto_now_add=True)
+
+	def __str__(self):
+		return self.name
