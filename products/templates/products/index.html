@@ -9,13 +9,17 @@
 	<title>Christmas Grotto</title>
 </head>
 <body>
+	{% include "products/navbar.html" %}
 	<div class="container">
-		<div class="row">
-			<h1>Christmas Grotto</h1>
-			<hr>
-		</div>
-
-		<div class="row">
+		{% if registered %}
+			<div class="row mb-3">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					Registered successfully!
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+		{% endif %}
+		<div class="row m-3">
 		{% for item in recent_products %}
 			<div class="col-4">
 				<h2>{{ item.name }} <small class="text-muted">£{{ item.price }}</small></h2>

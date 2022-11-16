@@ -20,9 +20,13 @@ class User(models.Model):
 	# the model for each user
 	username = models.CharField("What the user uses to login", max_length=20)
 	name = models.CharField("What the user chooses to go by", max_length=100)
-	password = ""
+	password = models.CharField("The user's password", max_length=100)
 	email = models.EmailField("The user's email for order confirmations.")
 	joined = models.DateField("Date the user joined", auto_now_add=True)
 
 	def __str__(self):
-		return self.name
+		# for the string representation, either the name if available, or the username
+		if self.name != "":
+			return self.name
+		else:
+			return self.username
