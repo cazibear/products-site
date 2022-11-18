@@ -18,7 +18,7 @@ class Product(models.Model):
 
 class User(models.Model):
 	# the model for each user
-	username = models.CharField("What the user uses to login", max_length=20)
+	username = models.CharField("What the user uses to login", max_length=20, unique=True)
 	name = models.CharField("What the user chooses to go by", max_length=100)
 	password = models.CharField("The user's password", max_length=100)
 	email = models.EmailField("The user's email for order confirmations.")

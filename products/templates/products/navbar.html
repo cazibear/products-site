@@ -4,9 +4,16 @@
 		<div class="collapse navbar-collapse">
 			<div class="navbar-nav">
 					<a href="{% url "index" %}" class="nav-link">Home</a>
+					{% if user %}
+					<a href="{% url "logout" %}" class="nav-link">Logout</a>
+					{% else %}
 					<a href="{% url "login" %}" class="nav-link">Login</a>
 					<a href="{% url "register" %}" class="nav-link">Register</a>
-			</div>
+					{% endif %}
+				</div>
+				{% if user %}
+				<span class="navbar-text">Welcome, {{ user }}</span>
+				{% endif %}
 		</div>
 	</div>
 </div>

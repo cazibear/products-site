@@ -27,7 +27,6 @@ def user_data(apps, schema_editor):
 	# sample data for 10 users
 	names = ["Gareth Dukes", "Celestine Addison", "Mack Lamb", "Avery Ellison", "Adele Kitchens", "Kerri Simpkin", "Millard Danell", "Daisy Simpkin", "Blaine Warrick", "Kyra Herriot"]
 	usernames = ["DearBedroom", "AnyResist", "InfantileGod", "BarbarousBorder", "EqualVideo", "GentleAccident", "FirsthandReflection", "CornyPopulation", "GrumpyProfit", "HolisticAmbition"]
-	passwords = ["cabbage", "burritos", "lentils", "pumpkins", "pastie", "cornbread", "baguette", "tortilla", "brownies", "cupcake"]
 
 	User = apps.get_model("products", "User") # get the User model
 	sample_users = [] # list for the User sample data, so all can be added at once
