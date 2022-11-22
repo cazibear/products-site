@@ -25,3 +25,13 @@ class LoginForm(forms.Form):
 			# giving the fields the bootstrap classes
 			visible.field.widget.attrs['class'] = 'form-control'
 
+class ContactForm(forms.Form):
+	# form for making contact
+	subject = forms.CharField(required=True)
+	message = forms.CharField(widget=forms.Textarea, required=True)
+	
+	def __init__(self, *args, **kwargs):
+		super(ContactForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			# giving the fields the bootstrap classes
+			visible.field.widget.attrs['class'] = 'form-control'

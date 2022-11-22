@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.hashers import make_password, check_password
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from .models import User, Product
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, ContactForm
 
 
 def index(request, message=None):
@@ -67,6 +69,7 @@ def login(request):
 				else:
 					# if their password entered into the form matches the database one, log them in
 					request.session["user"] = str(database_user)
+					request.session["user_id"] = database_user.id
 					# set the session variable "user" to their name then send them back to index
 					print("successful login")
 					return redirect(index)
@@ -91,3 +94,39 @@ def logout(request):
 
 	return redirect(index)
 	
+
+def contact(request):
+	""" view for the contact form, and handling it """
+	context = {"user": request.session.get("user")}
+
+	if request.method == "GET":
+		# if the method is a get, just get the form
+		form = ContactForm()
+	elif request.session.get("user_id") is None:
+		# checking if there is a user logged in
+		request.session["message"] = "You have to be logged in to contact"
+		redirect(index)
+	else:
+		# for a post with the user logged in
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			# check the form is setup and valid
+			subject = form.cleaned_data["subject"]
+			message = form.cleaned_data["message"]
+			from_email = User.objects.get(id=request.session["user_id"]).email
+			# get the users email from their id
+			try:
+				send_mail(subject, message, from_email, ["contact@example.com"])
+				# send out their contact email
+			except BadHeaderError:
+				return HttpResponse("Invalid header.")
+			return redirect(sent) # success, send the user to the success page
+	
+	context["form"] = form # add the form to the context finally
+	return render(request, "products/contact.html", context)
+
+
+
+def sent(request):
+	""" view for successful contact forms """
+	return render(request, "products/contact_sent.html", {"user": request.session.get("user")})
